@@ -16,11 +16,9 @@
 # 02110-1301, USA.
 
 import structure_tools as struct
+import sys
 
-def main(pdb_filename):
-    # Load chain (as Bio.PDB chain-type) from pdb-file
-    chain = struct.load_chain(pdb_filename)
-    
+def calculate_chemical_shifts(chain):
     
     # Calculate all phi/psi angles once
     phi_psi_angles = struct.get_phi_psi_angles(chain)
@@ -36,8 +34,34 @@ def main(pdb_filename):
         res_id = residue.id[1]
         res_name = residue.get_resname()
     
-        print res_name, res_id, phi_psi_angles[res_id], chi_angles[res_id]
-    
-        # for atom in residue:
-            # print atom
-    
+        # Do something ...
+        #
+        # print res_name, res_id, phi_psi_angles[res_id], chi_angles[res_id]
+
+
+    # Retur something ...
+    return []
+
+
+
+def main():
+
+    try:
+        pdb_filename = sys.argv[1]
+        
+        # Load chain (as Bio.PDB chain-type) from pdb-file
+        chain = struct.load_chain(pdb_filename)
+        print 'Loaded chain from file:', pdb_filename
+
+    except:
+        print 'ERROR: Problem loading chain from file:', pdb_filename
+        raise SystemExit
+
+
+    # Calculate chemical shifts
+    chemical_shifts = calculate_chemical_shifts(chain)
+
+
+
+
+   

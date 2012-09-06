@@ -16,10 +16,10 @@
 # 02110-1301, USA.
 
 import numpy
-from Bio.PDB import *
+import Bio.PDB
 
 
-# Atoms in the chain that forms chi1, chi2, etc. dihedral angles
+# Atoms in the chain that form chi1, chi2, etc. dihedral angles
 SIDE_CHAINS = {'ALA' : [],
                'GLY' : [],
                'ARG' : ['N',  'CA',  'CB',  'CG',  'CD',  'NE',  'CZ'],
@@ -30,15 +30,15 @@ SIDE_CHAINS = {'ALA' : [],
                'GLN' : ['N',  'CA',  'CB',  'CG',  'CD',  'OE1'],
                'HIS' : ['N',  'CA',  'CB',  'CG',  'CD2'],
                'ILE' : ['N',  'CA',  'CB',  'CG1', 'CD1'],
-               'LEU' : ['N',  'CA',  'CB',  'CG', 'CD1'],
+               'LEU' : ['N',  'CA',  'CB',  'CG',  'CD1'],
                'LYS' : ['N',  'CA',  'CB',  'CG',  'CD',  'CE',  'NZ'],
                'MET' : ['N',  'CA',  'CB',  'CG',  'SD',  'CE'],
                'PHE' : ['N',  'CA',  'CB',  'CG',  'CD1'],
                'PRO' : ['N',  'CA',  'CB',  'CG',  'CD'],
                'SER' : ['N',  'CA',  'CB',  'OG'],
                'THR' : ['N',  'CA',  'CB',  'OG1'],
-               'TYR' : ['N',  'CA',  'CB',  'CG', 'CD1'],
-               'TRP' : ['N',  'CA',  'CB',  'CG', 'CD1'],
+               'TYR' : ['N',  'CA',  'CB',  'CG',  'CD1'],
+               'TRP' : ['N',  'CA',  'CB',  'CG',  'CD1'],
                'VAL' : ['N',  'CA',  'CB',  'CG1']}
 
 # Atoms that form aromatic rings.
@@ -61,10 +61,10 @@ def calculate_chi_angles(residue):
 
     for i in range(len(atoms) - 3):
         try:
-            this_chi = calc_dihedral(residue[atoms[0 + i]].get_vector(),
-                                     residue[atoms[1 + i]].get_vector(),
-                                     residue[atoms[2 + i]].get_vector(),
-                                     residue[atoms[3 + i]].get_vector())
+            this_chi = Bio.PDB.calc_dihedral(residue[atoms[0 + i]].get_vector(),
+                                             residue[atoms[1 + i]].get_vector(),
+                                             residue[atoms[2 + i]].get_vector(),
+                                             residue[atoms[3 + i]].get_vector())
         except:
             print "Error: Missing atoms in side chain of ", 
             print residue.get_resname(), residue.id[1]
@@ -79,8 +79,8 @@ def calculate_chi_angles(residue):
 # Return a dictionary of lists of phi/psi-angles for each residues
 def get_phi_psi_angles(chain):
 
-    # Use method from biopython to extract phi/psi angles
-    polypeptide = Polypeptide.Polypeptide(chain)
+    # Use method from Biopython/Bio.PDB to extract phi/psi angles
+    polypeptide = Bio.PDB.Polypeptide.Polypeptide(chain)
     phi_psi_disordered_list = polypeptide.get_phi_psi_list()
 
     phi_psi_dictionary = dict()
@@ -110,7 +110,7 @@ def get_chi_angles(chain):
 # Load first chain of first model found in the pdb-file
 def load_chain(filename):
 
-    for model in PDBParser().get_structure("chain", filename) :
+    for model in Bio.PDB.PDBParser().get_structure("chain", filename) :
         for chain in model:
 
             return chain

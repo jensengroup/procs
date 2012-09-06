@@ -1,10 +1,16 @@
-== REQUIREMENTS ==
+=== REQUIREMENTS: ===
 
- * Python
+ * Python version 2.x
  * Numpy
  * Biopython
 
 
-== INSTALLATION ==
+ Tested on:
+ - Ubuntu 10.04 LTS 
+ - CentOS 6.3
 
- No installation is needed.
+=== INSTALLATION: ===
+
+ No installation needed.
+
+
